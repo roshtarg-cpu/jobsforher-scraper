@@ -31,7 +31,7 @@ async def _fetch(url, proxy_url=None):
     try:
         async with AsyncCamoufox(
             headless=True,
-            geoip=True,
+            geoip=False,  # Disabled: causes proxy 403 errors with ipecho.net
             proxy=proxy_config
         ) as browser:
             page = await browser.new_page()
