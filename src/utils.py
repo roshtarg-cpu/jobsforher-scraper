@@ -43,8 +43,14 @@ async def _fetch(url, proxy_url=None):
                 logger.warning(f"Bad response status: {response.status if response else 'None'}")
                 return None
             
-            # Wait for dynamic content to render
-            await page.wait_for_timeout(3000)
+            # Wait for dynamic content to render (JobsForHer/HerKey is heavily React-based)
+            await page.wait_for_timeout(8000)
+            
+            # Try to wait for job content container
+            try:
+                await page.wait_for_selector('#parentmore_jobs, [data-test-id*="job"]', timeout=10000)
+            except Exception as e:
+                logger.warning(f"Timeout waiting for job containers: {e}")
             
             # Get HTML content
             html = await page.content()

@@ -37,13 +37,23 @@ def parse_jobs(html, url):
     # Fall back to HTML parsing (client-side rendered site)
     soup = BeautifulSoup(html, 'html.parser')
     
-    # JobsForHer uses React/MUI - look for job card elements
-    # Common patterns: cards with job info, links to job details
-    job_cards = soup.find_all(['div', 'article'], class_=re.compile(r'(job|card|listing)', re.I))
+    # JobsForHer/HerKey uses MUI and dynamically loads jobs
+    # Look for job card containers - they appear after JS renders
+    job_cards = soup.find_all('div', attrs={'data-test-id': 'job-card'})
     
     if not job_cards:
-        # Try alternative selectors
-        job_cards = soup.find_all('a', href=re.compile(r'/job'))
+        # Try alternative selectors - look for any elements with job-related test IDs
+        job_cards = soup.find_all(attrs={'data-test-id': re.compile(r'job', re.I)})
+    
+    if not job_cards:
+        # Try finding job links in the dynamically loaded section
+        parent_section = soup.find('div', id='parentmore_jobs')
+        if parent_section:
+            job_cards = parent_section.find_all(['div', 'article'], recursive=True)
+    
+    if not job_cards:
+        # Fallback: look for any link containing /job/ or /apply/
+        job_cards = soup.find_all('a', href=re.compile(r'/(job|apply|career)'))
         
     for card in job_cards:
         try:
