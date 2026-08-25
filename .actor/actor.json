@@ -1,0 +1,69 @@
+{
+  "actorSpecification": 1,
+  "name": "jobsforher-scraper",
+  "title": "JobsForHer Scraper — Women-Focused Job Board Data",
+  "description": "Extract job listings from JobsForHer.com, India's leading platform for women's flexible work opportunities. Returns job titles, companies, locations, work modes, salaries, and more. Perfect for recruitment, market research, and AI agents. Works with Claude, ChatGPT, and AI agents via Apify MCP.",
+  "version": "0.1",
+  "buildTag": "latest",
+  "dockerfile": "./Dockerfile",
+  "output": {
+    "actorOutputSchemaVersion": 1,
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Job Title",
+        "template": "{{{title}}}"
+      },
+      "company": {
+        "type": "string",
+        "title": "Company Name",
+        "template": "{{{company}}}"
+      },
+      "location": {
+        "type": "string",
+        "title": "Job Location",
+        "template": "{{{location}}}"
+      },
+      "jobType": {
+        "type": "string",
+        "title": "Job Type",
+        "template": "{{{jobType}}}"
+      },
+      "experience": {
+        "type": "string",
+        "title": "Experience Required",
+        "template": "{{{experience}}}"
+      },
+      "salary": {
+        "type": "string",
+        "title": "Salary Range",
+        "template": "{{{salary}}}"
+      },
+      "url": {
+        "type": "string",
+        "title": "Job URL",
+        "template": "{{{url}}}"
+      },
+      "postedDate": {
+        "type": "string",
+        "title": "Posted Date",
+        "template": "{{{postedDate}}}"
+      },
+      "description": {
+        "type": "string",
+        "title": "Job Description",
+        "template": "{{{description}}}"
+      },
+      "scrapedAt": {
+        "type": "string",
+        "title": "Scrape Timestamp",
+        "template": "{{{scrapedAt}}}"
+      },
+      "sourceUrl": {
+        "type": "string",
+        "title": "Source URL",
+        "template": "{{{sourceUrl}}}"
+      }
+    }
+  }
+}
